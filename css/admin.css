@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600&display=swap');
+
+:root {
+  --gold: #d4af6a;
+  --gold-dark: #b88d45;
+  --brown: #40382d;
+}
+
+body { font-family: 'Inter', system-ui, sans-serif; }
+.brand-title { font-family: 'Poppins', system-ui, sans-serif; letter-spacing: -0.03em; }
+.brand-title span { color: var(--gold-dark); font-size: 0.7em; letter-spacing: 0.15em; }
+.gold-surface { background: linear-gradient(135deg, #c19a4d, #e8cb87); }
+.gold-button { color: var(--brown); background: var(--gold); transition: background .2s, transform .2s; }
+.gold-button:hover { background: #c19a4d; transform: translateY(-1px); }
+.admin-input { width: 100%; border: 1px solid #e7dfd2; border-radius: 1rem; padding: .65rem .8rem; font-size: .875rem; outline: none; background: #fff; }
+.admin-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,175,106,.16); }
+.admin-label { display: block; font-size: .75rem; color: #787064; margin-bottom: .3rem; }
+.nav-item { display: flex; align-items: center; gap: .65rem; width: 100%; padding: .7rem .8rem; border-radius: .9rem; text-align: left; color: #6f6659; }
+.nav-item:hover, .nav-item.active { color: var(--brown); background: #fbf4e6; }
+.stat-card { display: flex; align-items: center; gap: .8rem; background: #fff; border: 1px solid #e7dfd2; border-radius: 1.25rem; padding: 1rem; }
+.stat-icon { width: 2.4rem; height: 2.4rem; border-radius: .8rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.admin-table { width: 100%; min-width: 650px; text-align: left; font-size: .875rem; }
+.admin-table th { padding: .8rem 1rem; background: #fcfaf6; color: #857b6d; font-size: .7rem; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.admin-table td { padding: 1rem; border-top: 1px solid #f0ebe2; vertical-align: middle; }
+.table-action { color: #9a762e; font-size: .75rem; }
+.table-action:hover { text-decoration: underline; }
+.table-action.danger { color: #be5b53; }
+.status-pill { display: inline-flex; border-radius: 999px; padding: .25rem .6rem; font-size: .7rem; white-space: nowrap; }
+.status-waiting { color: #9a6b18; background: #fff4d8; }
+.status-processing { color: #8a5b19; background: #f8ead0; }
+.status-shipped { color: #27658a; background: #e4f3fb; }
+.status-done { color: #28744b; background: #e4f6eb; }
+.order-status { border: 1px solid #e7dfd2; border-radius: .7rem; padding: .35rem .5rem; font-size: .75rem; }
+.admin-sidebar { transition: transform .2s ease; }
+@media (max-width: 767px) { .admin-sidebar { transform: translateX(-100%); } .admin-sidebar.open { transform: translateX(0); } }

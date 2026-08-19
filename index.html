@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jasatitip Store • Prototype</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-slate-50 text-slate-800">
+  <!-- NAVBAR -->
+  <nav class="bg-white border-b sticky top-0 z-50">
+    <div class="max-w-screen-xl mx-auto">
+      <div class="px-6 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-x-3">
+          <div class="flex items-center gap-x-2">
+            <div class="w-9 h-9 bg-amber-400 rounded-xl flex items-center justify-center">
+              <i class="fa-solid fa-stamp text-white text-2xl"></i>
+            </div>
+            <div>
+              <span class="logo-font text-2xl font-semibold tracking-tighter">jasatitip</span>
+              <span class="text-amber-600 font-semibold text-sm tracking-[2px]">STORE</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desktop Nav -->
+        <div class="hidden md:flex items-center gap-x-8 text-sm">
+          <a href="#" onclick="scrollToSection('katalog')" class="hover:text-amber-600 transition-colors">Katalog</a>
+          <a href="#" onclick="scrollToSection('kategori')" class="hover:text-amber-600 transition-colors">Kategori</a>
+          <a href="#" onclick="showSaleOnly()" class="hover:text-amber-600 transition-colors">Sale</a>
+        </div>
+
+        <div class="flex items-center gap-x-3">
+          <!-- Search -->
+          <div class="relative hidden sm:block w-64">
+            <input id="search-input" 
+                   type="text" 
+                   placeholder="Cari produk..." 
+                   class="w-full pl-10 pr-4 py-2 text-sm bg-slate-100 border border-slate-200 rounded-2xl focus:outline-none focus:border-amber-200"
+                   onkeyup="if (event.key === 'Enter') filterProducts()">
+            <i class="fa-solid fa-search absolute left-3.5 top-3 text-slate-400"></i>
+          </div>
+
+          <!-- Cart -->
+          <button onclick="toggleCart()" 
+                  class="flex items-center gap-x-2 px-4 py-2 rounded-2xl hover:bg-slate-100 transition-colors relative">
+            <i class="fa-solid fa-shopping-bag text-xl"></i>
+            <span id="cart-count" 
+                  aria-live="polite"
+                  class="absolute -top-1 -right-1 bg-rose-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
+            <span class="hidden md:inline text-sm font-medium">Keranjang</span>
+          </button>
+
+          <!-- Mobile menu -->
+          <button class="md:hidden px-3 py-2" onclick="toggleMobileMenu()" aria-label="Buka menu">
+            <i class="fa-solid fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Nav -->
+      <div id="mobile-menu" class="hidden md:hidden border-t px-6 py-4 bg-white">
+        <div class="relative mb-3">
+          <input id="mobile-search-input"
+                 type="text"
+                 placeholder="Cari produk..."
+                 class="w-full pl-10 pr-4 py-2 text-sm bg-slate-100 border border-slate-200 rounded-2xl focus:outline-none focus:border-amber-200">
+          <i class="fa-solid fa-search absolute left-3.5 top-3 text-slate-400"></i>
+        </div>
+        <div class="flex items-center gap-5 text-sm">
+          <a href="#katalog" onclick="toggleMobileMenu()" class="hover:text-amber-600">Katalog</a>
+          <a href="#kategori" onclick="toggleMobileMenu()" class="hover:text-amber-600">Kategori</a>
+          <button onclick="showSaleOnly(); toggleMobileMenu()" class="hover:text-amber-600">Sale</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="max-w-screen-xl mx-auto px-6 pt-8 pb-6">
+    <div class="bg-gradient-to-br from-amber-400 to-slate-800 rounded-3xl px-8 py-10 text-white flex flex-col md:flex-row gap-8 items-center">
+      <div class="flex-1">
+        <div class="inline-flex items-center gap-x-2 bg-white/10 text-white/90 text-xs tracking-widest px-3 py-1 rounded-full mb-4">
+          <i class="fa-solid fa-fire"></i>
+          <span>EDISI BARU JANUARI 2026</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-semibold tracking-tighter leading-none mb-3">
+          Titipan &amp; Belanja<br>yang memudahkan.
+        </h1>
+        <p class="max-w-md text-amber-100 mb-6">Ribuan produk anime, gadget, dan kebutuhan. Kami titipkan untuk kamu.</p>
+        
+        <div class="flex gap-x-3">
+          <button onclick="scrollToSection('katalog')" 
+                  class="px-6 py-3 bg-white text-amber-600 font-semibold rounded-2xl text-sm hover:bg-amber-50 transition-colors flex items-center gap-x-2">
+            <span>Jelajahi Katalog</span>
+          </button>
+          <button onclick="showSaleOnly()" 
+                  class="px-5 py-3 border border-white/30 hover:bg-white/10 rounded-2xl text-sm flex items-center gap-x-2">
+            <i class="fa-solid fa-tag"></i>
+            <span>Lihat Sale</span>
+          </button>
+        </div>
+      </div>
+      <div class="flex-1 flex justify-center">
+        <div class="grid grid-cols-3 gap-3 max-w-[260px]">
+          <div class="aspect-square bg-white/10 rounded-2xl overflow-hidden"><img src="https://picsum.photos/id/1015/200/200" class="w-full h-full object-cover" alt="Produk unggulan Jasatitip"></div>
+          <div class="aspect-square bg-white/10 rounded-2xl overflow-hidden"><img src="https://picsum.photos/id/1005/200/200" class="w-full h-full object-cover" alt="Produk unggulan Jasatitip"></div>
+          <div class="aspect-square bg-white/10 rounded-2xl overflow-hidden"><img src="https://picsum.photos/id/106/200/200" class="w-full h-full object-cover" alt="Produk unggulan Jasatitip"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="max-w-screen-xl mx-auto px-6 pb-6">
+    <div class="flex gap-x-8 text-sm">
+      <div><span class="font-semibold text-amber-600">18</span> <span class="text-slate-500">produk</span></div>
+      <div><span class="font-semibold text-amber-600">47</span> <span class="text-slate-500">kategori</span></div>
+      <div><span class="font-semibold text-amber-600">12k+</span> <span class="text-slate-500">terjual</span></div>
+    </div>
+  </div>
+
+  <!-- KATEGORI -->
+  <div id="kategori" class="max-w-screen-xl mx-auto px-6 pt-2 pb-4">
+    <div class="flex items-center justify-between mb-3">
+      <div class="section-title font-semibold">Kategori Populer</div>
+      <button onclick="resetFilters()" class="text-xs text-amber-600 hover:underline">Reset filter</button>
+    </div>
+    
+    <div class="flex flex-wrap gap-2" id="category-chips">
+      <!-- populated by JS -->
+    </div>
+  </div>
+
+  <!-- KATALOG -->
+  <div id="katalog" class="max-w-screen-xl mx-auto px-6 pt-2 pb-10">
+    <div class="flex items-end justify-between mb-4">
+      <div>
+        <div class="section-title font-semibold">Semua Produk</div>
+        <div id="results-count" aria-live="polite" class="text-xs text-slate-500">Menampilkan 18 dari 18 produk</div>
+      </div>
+      
+      <div class="flex items-center gap-x-2">
+        <select id="sort-select" onchange="filterProducts()" 
+                class="text-sm border border-slate-200 bg-white px-3 py-1.5 rounded-2xl text-slate-700">
+          <option value="default">Urutkan: Terbaru</option>
+          <option value="price-low">Harga: Rendah ke Tinggi</option>
+          <option value="price-high">Harga: Tinggi ke Rendah</option>
+          <option value="name">Nama A-Z</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- PRODUCT GRID -->
+    <div id="product-grid" 
+         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+      <!-- JS populated cards -->
+    </div>
+  </div>
+
+  <!-- FOOTER SIMPLE -->
+  <div class="border-t bg-white">
+    <div class="max-w-screen-xl mx-auto px-6 py-8 text-xs text-slate-500 flex flex-col md:flex-row gap-y-2 justify-between">
+      <div>Prototype Jasatitip Store • Dibuat untuk eksplorasi</div>
+      <div class="flex gap-x-4">
+        <span>© 2026 Jasatitip</span>
+        <span>Hubungi: @jasatitip</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCT DETAIL MODAL -->
+  <div id="product-modal" role="dialog" aria-modal="true" aria-labelledby="product-modal-title" tabindex="-1" onclick="if (event.target.id === 'product-modal') closeProductModal()" 
+       class="hidden fixed inset-0 bg-black/60 flex items-end md:items-center justify-center z-[60]">
+    <div onclick="event.stopImmediatePropagation()" 
+         class="bg-white w-full md:w-[480px] md:rounded-3xl md:m-4 rounded-t-3xl max-h-[92vh] overflow-hidden flex flex-col">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between px-5 pt-4 pb-2 border-b">
+        <div id="product-modal-title" class="font-semibold">Detail Produk</div>
+        <button onclick="closeProductModal()" aria-label="Tutup detail produk" class="text-2xl leading-none px-2 text-slate-400 hover:text-slate-600">×</button>
+      </div>
+
+      <div class="overflow-auto flex-1 p-5" id="modal-content">
+        <!-- JS fills this -->
+      </div>
+
+      <div class="border-t p-5 bg-slate-50 flex gap-x-3">
+        <button onclick="closeProductModal()" 
+                class="flex-1 py-3 rounded-2xl border text-sm font-medium">Tutup</button>
+        <button id="modal-add-btn"
+                class="flex-1 py-3 bg-amber-400 hover:bg-amber-500 transition-colors text-white rounded-2xl text-sm font-semibold flex items-center justify-center gap-x-2">
+          <i class="fa-solid fa-cart-plus"></i>
+          <span>Tambah ke Keranjang</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CART DRAWER -->
+  <div id="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title" onclick="if (event.target.id === 'cart-drawer') toggleCart()" 
+       class="hidden fixed inset-0 bg-black/50 z-[70]">
+    <div onclick="event.stopImmediatePropagation()" 
+         class="absolute right-0 top-0 h-full w-full max-w-[380px] bg-white shadow-2xl flex flex-col">
+      
+      <div class="flex items-center justify-between px-5 py-4 border-b">
+        <div class="font-semibold flex items-center gap-x-2">
+          <i class="fa-solid fa-shopping-bag"></i>
+          <span id="cart-drawer-title">Keranjang</span>
+        </div>
+        <button onclick="toggleCart()" aria-label="Tutup keranjang" class="text-xl px-2 text-slate-400">×</button>
+      </div>
+
+      <div id="cart-items" class="flex-1 overflow-auto p-4 mini-cart text-sm">
+        <!-- JS populates -->
+      </div>
+
+      <div class="p-5 border-t bg-white">
+        <div class="flex justify-between text-sm mb-1">
+          <div class="text-slate-600">Subtotal</div>
+          <div id="cart-subtotal" class="font-semibold">Rp0</div>
+        </div>
+        <div class="text-[10px] text-slate-400 mb-4">Belum termasuk ongkir • Estimasi Rp15.000</div>
+
+        <button onclick="proceedToCheckout()" 
+                class="w-full py-3 bg-amber-400 hover:bg-amber-500 active:bg-amber-600 text-white text-sm font-semibold rounded-2xl flex items-center justify-center gap-x-2">
+          Lanjut ke Checkout
+        </button>
+        
+        <button onclick="toggleCart()" 
+                class="w-full py-2.5 text-xs mt-2 text-slate-500 hover:text-slate-700">Lanjut Belanja</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKOUT MODAL -->
+  <div id="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-modal-title" tabindex="-1" onclick="if (event.target.id === 'checkout-modal') closeCheckoutModal()" 
+       class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-[80]">
+    <div onclick="event.stopImmediatePropagation()" 
+         class="bg-white w-full max-w-md mx-4 md:mx-0 rounded-3xl overflow-hidden">
+      
+      <div class="px-5 py-4 border-b flex items-center justify-between">
+        <div id="checkout-modal-title" class="font-semibold">Checkout</div>
+        <button onclick="closeCheckoutModal()" aria-label="Tutup checkout" class="text-xl leading-none text-slate-400">×</button>
+      </div>
+
+      <div class="p-5 space-y-4 text-sm">
+        <!-- Order summary -->
+        <div>
+          <div class="text-xs font-medium text-slate-500 mb-2">Ringkasan Pesanan</div>
+          <div id="checkout-summary" class="bg-slate-50 rounded-2xl p-3 text-xs space-y-1"></div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-xs text-slate-500 block mb-1">Nama Lengkap</label>
+            <input id="checkout-name" value="Ilham Maulana" autocomplete="name" required class="w-full border rounded-2xl px-3 py-2 text-sm">
+          </div>
+          <div>
+            <label class="text-xs text-slate-500 block mb-1">No. HP</label>
+            <input id="checkout-phone" type="tel" inputmode="tel" autocomplete="tel" value="081234567890" required class="w-full border rounded-2xl px-3 py-2 text-sm">
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs text-slate-500 block mb-1">Alamat Pengiriman</label>
+          <textarea id="checkout-address" rows="2" autocomplete="street-address" required class="w-full border rounded-2xl px-3 py-2 text-sm">Jl. Merdeka No. 12, Bandung, Jawa Barat</textarea>
+        </div>
+
+        <div>
+          <label class="text-xs text-slate-500 block mb-1">Metode Pembayaran</label>
+          <div class="flex gap-x-2">
+            <label class="w-full border rounded-2xl px-3 py-2 flex items-center gap-x-2 text-sm cursor-pointer">
+              <input type="radio" name="pay" value="transfer" checked>
+              <span>Transfer Bank</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-5 bg-slate-50 border-t flex gap-x-3">
+        <button onclick="closeCheckoutModal()" 
+                class="flex-1 py-3 text-sm border rounded-2xl font-medium">Batal</button>
+        <button onclick="completeOrder()" 
+                class="flex-1 py-3 bg-amber-400 hover:bg-amber-500 text-white text-sm font-semibold rounded-2xl">
+          Bayar Sekarang
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUCCESS TOAST / MODAL -->
+  <div id="success-modal" role="dialog" aria-modal="true" aria-labelledby="success-modal-title" onclick="if (event.target.id === 'success-modal') hideSuccess()" 
+       class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-[90]">
+    <div onclick="event.stopImmediatePropagation()" class="bg-white w-full max-w-xs mx-4 rounded-3xl p-6 text-center">
+      <div class="mx-auto w-14 h-14 rounded-full bg-amber-100 flex items-center justify-center mb-4">
+        <i class="fa-solid fa-check text-amber-600 text-3xl"></i>
+      </div>
+      <div id="success-modal-title" class="font-semibold text-lg mb-1">Pesanan Berhasil!</div>
+      <div class="text-sm text-slate-600 mb-4">Nomor pesanan: <span id="order-id" class="font-mono font-semibold"></span></div>
+      
+      <div class="text-xs text-left bg-slate-50 p-3 rounded-2xl mb-4">
+        <div>Pesanan tercatat dan menunggu verifikasi transfer.</div>
+        <div class="text-amber-600 mt-1">Estimasi pengiriman 2-4 hari kerja setelah pembayaran dikonfirmasi.</div>
+      </div>
+      
+      <button onclick="hideSuccess(); resetAfterOrder()" 
+              class="w-full py-3 bg-amber-400 text-white rounded-2xl text-sm font-medium">Kembali ke Katalog</button>
+    </div>
+  </div>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>
