@@ -6,18 +6,24 @@ const adminProducts = [
 ]
 
 const API_BASE = 'http://localhost:3000/api'
+const DEMO_MODE = new URLSearchParams(window.location.search).get('demo') === '1' || window.location.hostname.endsWith('github.io')
 let authToken = localStorage.getItem('jasatitip_admin_token')
 
 const adminOrders = [
-  { id: 'NS-26081201', customer: 'Ilham Maulana', total: 54000, status: 'Diproses', items: 'Enamel Pin Gojo ×2, Pin Zoro ×1' },
-  { id: 'NS-26081188', customer: 'Salsa Putri', total: 35000, status: 'Menunggu Pembayaran', items: 'Paket Blind Box Cats ×1' },
-  { id: 'NS-26081142', customer: 'Raka Aditya', total: 9000, status: 'Selesai', items: 'Luffy Gear 5 Figure ×1' },
-  { id: 'NS-26081110', customer: 'Nadia Aulia', total: 18000, status: 'Dikirim', items: 'Hat Pin Valorant Jett ×1' }
+  { id: 201, orderNumber: 'NS-26081201', customer: 'Ilham Maulana', total: 54000, status: 'Diproses', items: 'Enamel Pin Gojo ×2, Pin Zoro ×1' },
+  { id: 202, orderNumber: 'NS-26081188', customer: 'Salsa Putri', total: 35000, status: 'Menunggu Pembayaran', items: 'Paket Blind Box Cats ×1' },
+  { id: 203, orderNumber: 'NS-26081142', customer: 'Raka Aditya', total: 9000, status: 'Selesai', items: 'Luffy Gear 5 Figure ×1' },
+  { id: 204, orderNumber: 'NS-26081110', customer: 'Nadia Aulia', total: 18000, status: 'Dikirim', items: 'Hat Pin Valorant Jett ×1' }
 ]
 
 let productList = [...adminProducts]
 let orderList = [...adminOrders]
-let categoryList = []
+let categoryList = [
+  { id: 1, name: 'Anime', slug: 'anime' },
+  { id: 2, name: 'General', slug: 'general' },
+  { id: 3, name: 'Video Games', slug: 'video-games' },
+  { id: 4, name: 'Cartoons', slug: 'cartoons' },
+]
 let editingProductId = null
 
 const money = value => `Rp${value.toLocaleString('id-ID')}`
@@ -26,6 +32,10 @@ const $ = id => document.getElementById(id)
 async function showApp() {
   $('login-screen').classList.add('hidden')
   $('admin-app').classList.remove('hidden')
+  if (DEMO_MODE) {
+    document.body.classList.add('demo-mode')
+    $('demo-banner').classList.remove('hidden')
+  }
   await loadAdminData()
   renderAll()
 }
@@ -39,6 +49,11 @@ async function apiRequest(path, options = {}) {
 }
 
 async function loadAdminData() {
+  if (DEMO_MODE) {
+    renderCategoryOptions()
+    return
+  }
+
   try {
     const [productPayload, orderPayload, categoryPayload] = await Promise.all([apiRequest('/products'), apiRequest('/orders'), apiRequest('/categories')])
     productList = productPayload.data.map(product => ({ ...product, id: Number(product.id) }))
@@ -184,5 +199,5 @@ document.addEventListener('DOMContentLoaded', () => {
   $('variants-list').addEventListener('click', event => { const variantId = Number(event.target.dataset.deleteVariant); if (variantId && confirm('Hapus varian ini?')) { apiRequest(`/variants/${variantId}`, { method: 'DELETE' }).then(() => loadProductVariants(Number($('product-id').value))).catch(error => alert(error.message)) } })
   $('sidebar-toggle').addEventListener('click', () => { $('admin-sidebar').classList.add('open'); $('sidebar-overlay').classList.remove('hidden') })
   $('sidebar-overlay').addEventListener('click', () => { $('admin-sidebar').classList.remove('open'); $('sidebar-overlay').classList.add('hidden') })
-  if (authToken) showApp()
+  if (DEMO_MODE || authToken) showApp()
 })

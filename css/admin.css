@@ -32,4 +32,12 @@ body { font-family: 'Inter', system-ui, sans-serif; }
 .status-done { color: #28744b; background: #e4f6eb; }
 .order-status { border: 1px solid #e7dfd2; border-radius: .7rem; padding: .35rem .5rem; font-size: .75rem; }
 .admin-sidebar { transition: transform .2s ease; }
+.demo-mode #add-product-btn,
+.demo-mode #product-form,
+.demo-mode #category-form,
+.demo-mode [data-edit-product],
+.demo-mode [data-delete-product],
+.demo-mode [data-edit-category],
+.demo-mode [data-delete-category],
+.demo-mode .order-status { display: none; }
 @media (max-width: 767px) { .admin-sidebar { transform: translateX(-100%); } .admin-sidebar.open { transform: translateX(0); } }
